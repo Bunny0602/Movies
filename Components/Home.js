@@ -6,6 +6,7 @@ import {
   Animated,
   SafeAreaView,
   ScrollView,
+  Alert,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
@@ -18,10 +19,12 @@ import Romance from "../Genre/Romance";
 import SciFi from "../Genre/SciFi";
 import SlideShow from "./Slide";
 import { handleViewAll } from "../navigation/utils";
+import Sidebar from "../navigation/Sidebar";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
   const scrollX = useRef(new Animated.Value(0)).current;
+  const [sidebarVisible, setSidebarVisible] = useState(false);
 
   const movie = {
     title: "Recommendation",
@@ -72,29 +75,6 @@ const HomeScreen = () => {
     },
   ];
 
-  const comedy = [
-    {
-      title: "Argylle",
-      image: require("../assets/Comedy/Argylle.jpg"),
-    },
-    {
-      title: "Beetlejuice 2",
-      image: require("../assets/Comedy/Beetlejuice 2.jpg"),
-    },
-    {
-      title: "Dumb and Dumber",
-      image: require("../assets/Comedy/Dumb and Dumber.jpg"),
-    },
-    {
-      title: "GhostBuster Frozen Empire",
-      image: require("../assets/Comedy/GhostBusters.jpg"),
-    },
-    {
-      title: "Hit Man",
-      image: require("../assets/Comedy/Hit Man.jpg"),
-    },
-  ];
-
   const horror = [
     {
       title: "The Conjuring",
@@ -122,26 +102,49 @@ const HomeScreen = () => {
     },
   ];
 
-  const sciFi = [
+  const fantasy = [
     {
-      title: "Action Movies",
-      image: require("../assets/image/Movie5.jpg"),
+      title: "Harry Potter And The Philosopher's Stone",
+      image: require("../assets/Fantasy/HarryPotter.jpg"),
     },
     {
-      title: "Action Movies",
-      image: require("../assets/image/Movie5.jpg"),
+      title: "Destiny Rewritten",
+      image: require("../assets/Fantasy/DestinyRewritten.jpg"),
     },
     {
-      title: "Action Movies",
-      image: require("../assets/image/Movie5.jpg"),
+      title: "Avatar The Way of Water",
+      image: require("../assets/Fantasy/Avatar.jpg"),
     },
     {
-      title: "Action Movies",
-      image: require("../assets/image/Movie5.jpg"),
+      title: "The Little Witch",
+      image: require("../assets/Fantasy/Witch.jpg"),
     },
     {
-      title: "Action Movies",
-      image: require("../assets/image/Movie5.jpg"),
+      title: "The Beauty and The Beast",
+      image: require("../assets/Fantasy/Thebeast.jpg"),
+    },
+  ];
+
+  const comedy = [
+    {
+      title: "Argylle",
+      image: require("../assets/Comedy/Argylle.jpg"),
+    },
+    {
+      title: "Beetlejuice 2",
+      image: require("../assets/Comedy/Beetlejuice 2.jpg"),
+    },
+    {
+      title: "Dumb and Dumber",
+      image: require("../assets/Comedy/Dumb and Dumber.jpg"),
+    },
+    {
+      title: "GhostBuster Frozen Empire",
+      image: require("../assets/Comedy/GhostBusters.jpg"),
+    },
+    {
+      title: "Hit Man",
+      image: require("../assets/Comedy/Hit Man.jpg"),
     },
   ];
 
@@ -172,28 +175,38 @@ const HomeScreen = () => {
     },
   ];
 
-  const fantasy = [
+  const sciFi = [
     {
-      title: "Harry Potter And The Philosopher's Stone",
-      image: require("../assets/Fantasy/HarryPotter.jpg"),
+      title: "Action Movies",
+      image: require("../assets/image/Movie5.jpg"),
     },
     {
-      title: "Destiny Rewritten",
-      image: require("../assets/Fantasy/DestinyRewritten.jpg"),
+      title: "Action Movies",
+      image: require("../assets/image/Movie5.jpg"),
     },
     {
-      title: "Avatar The Way of Water",
-      image: require("../assets/Fantasy/Avatar.jpg"),
+      title: "Action Movies",
+      image: require("../assets/image/Movie5.jpg"),
     },
     {
-      title: "The Little Witch",
-      image: require("../assets/Fantasy/Witch.jpg"),
+      title: "Action Movies",
+      image: require("../assets/image/Movie5.jpg"),
     },
     {
-      title: "The Beauty and The Beast",
-      image: require("../assets/Fantasy/Thebeast.jpg"),
+      title: "Action Movies",
+      image: require("../assets/image/Movie5.jpg"),
     },
   ];
+
+  const handleLogout = () => {
+    setSidebarVisible(false);
+    Alert.alert("Logout", "You have been logged out successfully.");
+    navigation.navigate("SignIn");
+  };
+
+  const toggleSidebar = () => {
+    setSidebarVisible((prev) => !prev);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -203,9 +216,14 @@ const HomeScreen = () => {
       >
         <View style={styles.container}>
           <View style={styles.header}>
-            <TouchableOpacity>
-              <Ionicons name="menu" size={30} color="#FFFFFF" />
+            <TouchableOpacity onPress={toggleSidebar}>
+              {sidebarVisible ? (
+                <Ionicons name="close" size={30} color="#FFFFFF" />
+              ) : (
+                <Ionicons name="menu" size={30} color="#FFFFFF" />
+              )}
             </TouchableOpacity>
+
             <TouchableOpacity>
               <Ionicons name="search" size={30} color="#FFFFFF" />
             </TouchableOpacity>
@@ -227,9 +245,9 @@ const HomeScreen = () => {
           </View>
 
           <View>
-            <Comedy
-              movies={comedy}
-              onViewAllPress={() => handleViewAll(navigation, "Comedy")}
+            <Horror
+              movies={horror}
+              onViewAllPress={() => handleViewAll(navigation, "Horror")}
             />
           </View>
 
@@ -239,10 +257,11 @@ const HomeScreen = () => {
               onViewAllPress={() => handleViewAll(navigation, "Fantasy")}
             />
           </View>
+
           <View>
-            <Horror
-              movies={horror}
-              onViewAllPress={() => handleViewAll(navigation, "Horror")}
+            <Comedy
+              movies={comedy}
+              onViewAllPress={() => handleViewAll(navigation, "Comedy")}
             />
           </View>
 
@@ -261,6 +280,12 @@ const HomeScreen = () => {
           </View>
         </View>
       </ScrollView>
+
+      <Sidebar
+        isVisible={sidebarVisible}
+        onClose={() => setSidebarVisible(false)}
+        onLogout={handleLogout}
+      />
     </SafeAreaView>
   );
 };

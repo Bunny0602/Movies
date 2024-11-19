@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { signUpWithEmailPassword } from "../firebaseConfig";
@@ -42,6 +42,29 @@ const SignUp = () => {
       <Text style={styles.subtitle}>Create an account</Text>
 
       {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
+
+      <View style={styles.Slashcontainer}>
+        <View style={[styles.slash, styles.two]} />
+        <TouchableOpacity
+          style={[styles.socialButton]}
+          onPress={() => Linking.openURL("https://www.google.com")}
+        >
+          <Image
+            source={require("../assets/icons/Google.png")}
+            style={styles.socialIcon}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.socialButton]}
+          onPress={() => Linking.openURL("https://www.facebook.com")}
+        >
+          <Image
+            source={require("../assets/icons/Facebook.png")}
+            style={styles.socialIcon}
+          />
+        </TouchableOpacity>
+        <View style={[styles.slash, styles.two]} />
+      </View>
 
       <View style={styles.inputContainer}>
         <FontAwesome name="envelope" size={20} color="rgba(255, 255, 255, 0.7)" style={styles.inputIcon} />
@@ -107,18 +130,56 @@ const styles = StyleSheet.create({
     backgroundColor: "#000000",
     padding: 20,
   },
+  
   title: {
     fontFamily: "Raleway-ExtraBold",
     fontSize: 50,
     color: "#FF9500",
-    marginBottom: 10,
+    marginBottom: 5,
   },
+
   subtitle: {
     fontFamily: "Roboto-Medium",
     fontSize: 20,
     color: "#FFFFFF",
-    marginBottom: 20,
+    marginBottom: 30,
   },
+
+  Slashcontainer: {
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 30,
+  },
+
+  slash: {
+    height: 1,
+    backgroundColor: "#FFFFFF",
+  },
+
+  one: {
+    width: 100,
+  },
+
+  two: {
+    width: 100,
+  },
+
+  socialIcon: {
+    width: 40,
+    height: 40,
+    resizeMode: "contain",
+  },
+
+  socialButton: {
+    width: 40,
+    height: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    marginHorizontal: 10,
+  },
+
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -128,6 +189,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: "rgba(255, 255, 255, 0.6)",
   },
+
   input: {
     flex: 1,
     paddingVertical: 10,
@@ -137,13 +199,16 @@ const styles = StyleSheet.create({
     height: 45,
     borderRadius: 8,
   },
+
   inputIcon: {
     marginLeft: 15,
   },
+
   eyeIcon: {
     position: "absolute",
     right: 10,
   },
+
   signUpButton: {
     backgroundColor: "#FFFFFF",
     width: 318,
@@ -153,27 +218,32 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: 20,
   },
+
   signUpText: {
     color: "#000000",
     fontSize: 20,
     fontFamily: "Roboto-Bold",
   },
+
   signIn: {
     flexDirection: "row",
     justifyContent: "center",
     marginTop: 10,
   },
+
   signInText: {
     fontFamily: "Roboto-Regular",
     fontSize: 15,
     color: "#FFFFFF",
   },
+
   signInLink: {
     fontFamily: "Roboto-Regular",
     fontSize: 15,
     color: "#E38400",
     fontWeight: "bold",
   },
+
   errorText: {
     color: "red",
     fontSize: 16,

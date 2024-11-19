@@ -5,7 +5,7 @@ const Recommendation = ({ movie }) => (
   <View style={styles.container}>
     <Text style={styles.Title}>{movie.title}</Text>
     <FlatList
-      data={movie.movies}  // Use movie.movies instead of movie.images
+      data={movie.movies}
       keyExtractor={(item, index) => index.toString()}
       horizontal
       renderItem={({ item, index }) => (
